@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+
+    android:background="#e4e4e4">
+
+    <TextView
+        android:id="@+id/joke_content"
+        android:layout_width="0dp"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="Test text" />
+
+</LinearLayout>
