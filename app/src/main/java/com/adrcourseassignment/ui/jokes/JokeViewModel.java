@@ -1,4 +1,4 @@
-package com.adrcourseassignment.ui.home;
+package com.adrcourseassignment.ui.jokes;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,19 +7,15 @@ import androidx.lifecycle.ViewModel;
 import com.adrcourseassignment.services.JokesProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class JokeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+
     private MutableLiveData<List<MutableLiveData<String>>> jokes;
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
+    public JokeViewModel() {
         jokes = new MutableLiveData<List<MutableLiveData<String>>>(new ArrayList());
-        mText.setValue("New");
-        JokesProvider.updateTargetWithNewJoke(mText);
         ArrayList arrList = new ArrayList<String>();
         for(int i = 0; i < 20; i ++){
             MutableLiveData<String> str = new MutableLiveData<>("Loading ...");
@@ -41,10 +37,6 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<List<MutableLiveData<String>>> getJokes(){
         return jokes;
-    }
-
-    public LiveData<String> getText() {
-        return mText;
     }
 
 

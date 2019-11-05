@@ -3,27 +3,28 @@ package com.adrcourseassignment.services;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adrcourseassignment.R;
-import com.adrcourseassignment.ui.home.HomeViewModel;
+import com.adrcourseassignment.ui.jokes.JokeViewModel;
 
 import java.util.List;
 
 public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
 
-    private HomeViewModel homeViewModel;
+    private JokeViewModel jokeViewModel;
     private List<MutableLiveData<String>> jokesCache;
+    private JokeAdapter.OnListItemClickListener onClickListener;
 
-    public JokeAdapter(HomeViewModel homeViewModel){
-        this.homeViewModel = homeViewModel;
-        this.jokesCache = homeViewModel.getJokes().getValue();
+    public JokeAdapter(JokeViewModel jokeViewModel, JokeAdapter.OnListItemClickListener onClickListener){
+        this.onClickListener = onClickListener;
+        this.jokeViewModel = jokeViewModel;
+        this.jokesCache = jokeViewModel.getJokes().getValue();
     }
 
     @NonNull
@@ -38,7 +39,7 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position > jokesCache.size() - 2){
-            homeViewModel.addMoreJokes();
+            jokeViewModel.addMoreJokes();
         }
         MutableLiveData<String> mutableString = jokesCache.get(position);
         holder.content.setText(mutableString.getValue());
@@ -50,13 +51,24 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
         return jokesCache.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView content;
 
         ViewHolder(View itemView){
             super(itemView);
             content = itemView.findViewById(R.id.joke_content);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListener.onListItemClick(getAdapterPosition());
         }
     }
+
+    public interface OnListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
 }
