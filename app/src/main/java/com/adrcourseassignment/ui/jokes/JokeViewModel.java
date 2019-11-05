@@ -1,20 +1,30 @@
 package com.adrcourseassignment.ui.jokes;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.adrcourseassignment.services.JokesProvider;
+import com.adrcourseassignment.dataModels.FavoriteJoke;
+import com.adrcourseassignment.services.favorite.FavoriteJokesRepository;
+import com.adrcourseassignment.services.jokes.JokesProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JokeViewModel extends ViewModel {
+public class JokeViewModel extends AndroidViewModel {
 
-
+    private FavoriteJokesRepository favoriteJokesRepository;
     private MutableLiveData<List<MutableLiveData<String>>> jokes;
 
-    public JokeViewModel() {
+    public JokeViewModel(Application application) {
+        super(application);
+        initialJokesPopulation();
+        favoriteJokesRepository = favoriteJokesRepository.getInstance(application);
+    }
+
+    private void initialJokesPopulation(){
         jokes = new MutableLiveData<List<MutableLiveData<String>>>(new ArrayList());
         ArrayList arrList = new ArrayList<String>();
         for(int i = 0; i < 20; i ++){
@@ -37,6 +47,10 @@ public class JokeViewModel extends ViewModel {
 
     public LiveData<List<MutableLiveData<String>>> getJokes(){
         return jokes;
+    }
+
+    public void addJokeToFavorite(String content){
+        favoriteJokesRepository.insert(new FavoriteJoke(0,content));
     }
 
 

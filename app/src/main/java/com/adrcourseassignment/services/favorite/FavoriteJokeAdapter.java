@@ -1,30 +1,29 @@
-package com.adrcourseassignment.services;
+package com.adrcourseassignment.services.favorite;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adrcourseassignment.R;
-import com.adrcourseassignment.ui.jokes.JokeViewModel;
+import com.adrcourseassignment.dataModels.FavoriteJoke;
+import com.adrcourseassignment.ui.gallery.FavoriteJokesViewModel;
 
 import java.util.List;
 
-public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
+public class FavoriteJokeAdapter extends RecyclerView.Adapter<FavoriteJokeAdapter.ViewHolder> {
 
-    private JokeViewModel jokeViewModel;
-    private List<MutableLiveData<String>> jokesCache;
-    private JokeAdapter.OnListItemClickListener onClickListener;
+    private FavoriteJokesViewModel viewModel;
+    private LiveData<List<FavoriteJoke>> favoriteJokesCache;
 
-    public JokeAdapter(JokeViewModel jokeViewModel, JokeAdapter.OnListItemClickListener onClickListener){
-        this.onClickListener = onClickListener;
-        this.jokeViewModel = jokeViewModel;
-        this.jokesCache = jokeViewModel.getJokes().getValue();
+
+    public FavoriteJokeAdapter(FavoriteJokesViewModel viewModel){
+        this.viewModel = viewModel;
+        this.favoriteJokesCache = viewModel.getJokes();
     }
 
     @NonNull
@@ -33,23 +32,22 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.single_joke, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(position > jokesCache.size() - 2){
-            jokeViewModel.addMoreJokes();
-        }
-        MutableLiveData<String> mutableString = jokesCache.get(position);
-        holder.content.setText(mutableString.getValue());
-
+        String jokeValue = favoriteJokesCache.getValue().get(position).getContent();
+        holder.content.setText(jokeValue);
     }
 
     @Override
     public int getItemCount() {
-        return jokesCache.size();
+        List<FavoriteJoke> list = favoriteJokesCache.getValue();
+        if(list == null)
+            return 0;
+        else return list.size();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -63,12 +61,7 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            onClickListener.onListItemClick(getAdapterPosition());
+            //todo add logic
         }
     }
-
-    public interface OnListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
-    }
-
 }

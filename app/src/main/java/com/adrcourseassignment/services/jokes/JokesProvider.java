@@ -1,13 +1,9 @@
-package com.adrcourseassignment.services;
+package com.adrcourseassignment.services.jokes;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.adrcourseassignment.dataModels.DadJoke;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;

@@ -1,4 +1,4 @@
-package com.adrcourseassignment.services;
+package com.adrcourseassignment.services.jokes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
@@ -19,9 +17,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adrcourseassignment.MainActivity;
 import com.adrcourseassignment.R;
-import com.adrcourseassignment.services.JokeAdapter;
+import com.adrcourseassignment.services.jokes.JokeAdapter;
 
 import java.util.List;
 
@@ -84,6 +81,8 @@ public class JokeFragment extends Fragment implements JokeAdapter.OnListItemClic
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add to favorite",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        jokeViewModel.addJokeToFavorite(content);
+                        Toast.makeText(getMe().getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });
