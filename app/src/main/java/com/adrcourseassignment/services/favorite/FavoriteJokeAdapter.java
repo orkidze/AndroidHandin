@@ -19,11 +19,12 @@ public class FavoriteJokeAdapter extends RecyclerView.Adapter<FavoriteJokeAdapte
 
     private FavoriteJokesViewModel viewModel;
     private LiveData<List<FavoriteJoke>> favoriteJokesCache;
+    private OnListItemClickListener listener;
 
-
-    public FavoriteJokeAdapter(FavoriteJokesViewModel viewModel){
+    public FavoriteJokeAdapter(FavoriteJokesViewModel viewModel, OnListItemClickListener listener){
         this.viewModel = viewModel;
         this.favoriteJokesCache = viewModel.getJokes();
+        this.listener = listener;
     }
 
     @NonNull
@@ -61,7 +62,12 @@ public class FavoriteJokeAdapter extends RecyclerView.Adapter<FavoriteJokeAdapte
 
         @Override
         public void onClick(View v) {
-            //todo add logic
+            FavoriteJoke joke = favoriteJokesCache.getValue().get(getAdapterPosition());
+            listener.onListItemClick(joke);
         }
+    }
+
+    public interface OnListItemClickListener {
+        void onListItemClick(FavoriteJoke joke);
     }
 }

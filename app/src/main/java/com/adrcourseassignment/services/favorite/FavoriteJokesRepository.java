@@ -35,6 +35,23 @@ public class FavoriteJokesRepository {
         new InsertIntoFavoriteJokesAsync(favoriteJokesDAO).execute(favoriteJoke);
     }
 
+    public void remove(int id){
+        new RemoveFavoriteJokesAsync(favoriteJokesDAO).execute(id);
+    }
+
+    private static class RemoveFavoriteJokesAsync extends AsyncTask<Integer,Void,Void> {
+        private FavoriteJokesDAO favoriteJokesDAO;
+
+        private RemoveFavoriteJokesAsync(FavoriteJokesDAO favoriteJokesDAO){
+            this.favoriteJokesDAO = favoriteJokesDAO;
+        }
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            favoriteJokesDAO.delete(new FavoriteJoke(integers[0],""));
+            return null;
+        }
+    }
+
     private static class InsertIntoFavoriteJokesAsync extends AsyncTask<FavoriteJoke,Void,Void> {
         private FavoriteJokesDAO favoriteJokesDAO;
 

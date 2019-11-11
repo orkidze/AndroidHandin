@@ -27,5 +27,9 @@ public class FavoriteJokesViewModel extends AndroidViewModel {
         return jokesRepository.getAllJokes();
     }
 
+    public void removeJoke(int id){
+        jokesRepository.remove(id);
+    }
+
 
 }

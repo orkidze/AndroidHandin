@@ -75,14 +75,17 @@ public class JokeFragment extends Fragment implements JokeAdapter.OnListItemClic
     @Override
     public void onListItemClick(int clickedItemIndex) {
         final String content = jokeViewModel.getJokes().getValue().get(clickedItemIndex).getValue();
+        ShowDialogBoxForJoke(content);
+    }
+
+    private void ShowDialogBoxForJoke(final String content){
         AlertDialog alertDialog = new AlertDialog.Builder(this.getContext()).create();
         alertDialog.setTitle("Actions");
         alertDialog.setMessage(content);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add to favorite",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        jokeViewModel.addJokeToFavorite(content);
-                        Toast.makeText(getMe().getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
+                        handleAddToFavorite(content);
                         dialog.dismiss();
                     }
                 });
@@ -100,6 +103,11 @@ public class JokeFragment extends Fragment implements JokeAdapter.OnListItemClic
                     }
                 });
         alertDialog.show();
+    }
+
+    private void handleAddToFavorite(String content){
+        jokeViewModel.addJokeToFavorite(content);
+        Toast.makeText(getMe().getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
     }
 
     private void handleShare(String content){

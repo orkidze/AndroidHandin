@@ -25,8 +25,8 @@
         tools:layout="@layout/fragment_share" />
 
     <fragment
-        android:id="@+id/nav_send"
-        android:name="com.adrcourseassignment.ui.send.SendFragment"
+        android:id="@+id/nav_log_out"
+        android:name="com.adrcourseassignment.ui.send.LogOutFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_logout" />
 </navigation>
